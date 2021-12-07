@@ -15,7 +15,7 @@
       >
         <mat-icon>add</mat-icon>
       </button>
-      <button type="reset" class="btn-fill-black btn-icon-sm" (click)="deleteNode(node?.id)">
+      <button type="button" class="btn-fill-black btn-icon-sm" (click)="emitDelete(node?.id)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
@@ -24,7 +24,7 @@
   <!-- node children -->
   <ul class="node-content" *ngIf="node?.children?.length && node?.type == 'folder'">
     <li *ngFor="let child of node?.children">
-      <app-node [node]="child"></app-node>
+      <app-node [node]="child" (deleteEvent)="deleteNode($event)"></app-node>
     </li>
   </ul>
 

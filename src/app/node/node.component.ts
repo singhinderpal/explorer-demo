@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
 import { NodeModel } from "../models/node.model";
@@ -12,6 +12,7 @@ import { NotifierService } from "../services/notifier.service";
 export class NodeComponent implements OnInit {
   @Input() node: NodeModel | null = null;
   @Input() isRootNode: boolean = false;
+  @Output() deleteEvent = new EventEmitter<string>();
 
   addPanelVisible$ = new BehaviorSubject<{ type: "folder" | "file" | null } | null>(null);
 
@@ -78,6 +79,10 @@ export class NodeComponent implements OnInit {
         this.deleteNodeByIndex(index);
       }
     }
+  }
+
+  emitDelete(id: string | undefined) {
+    this.deleteEvent.emit(id);
   }
 
   private generateId(): string {
