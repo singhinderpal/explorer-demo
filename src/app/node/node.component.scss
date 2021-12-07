@@ -1,0 +1,99 @@
+@import "../../variables.scss";
+
+.node-title {
+  height: $nodeHeight;
+  display: flex;
+  align-items: center;
+}
+
+.node-icon {
+  width: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5em !important;
+
+  img {
+    height: 1em;
+    width: auto;
+  }
+}
+
+.btn-toolbar,
+.type-selector {
+  & > button:not(:last-child) {
+    margin-right: 0.5em;
+  }
+}
+
+.node-container {
+  .node-title {
+    .btn-toolbar {
+      display: none;
+      margin-left: 0.8em;
+    }
+  }
+
+  &.root-container > .node-content {
+    padding-left: 0;
+  }
+  &:not(.root-container) {
+    .node-title {
+      &:hover {
+        .btn-toolbar {
+          display: inline-block;
+        }
+      }
+    }
+
+    .node-content {
+      padding-left: $nodePadding;
+      position: relative;
+
+      li {
+        position: relative;
+
+        &::before {
+          position: absolute;
+          content: "";
+          background: transparent;
+          width: $nodePadding / 2;
+          left: -0.75 * $nodePadding;
+          height: $nodeHeight / 2;
+          border-left: 1px solid #878787;
+          border-bottom: 1px solid #878787;
+        }
+
+        &:not(:last-child) {
+          &::after {
+            position: absolute;
+            content: "";
+            background: transparent;
+            left: -0.75 * $nodePadding;
+            top: 0.5 * $nodePadding;
+            height: calc(100% - (#{$nodeHeight} / 2));
+            border-left: 1px solid #878787;
+          }
+        }
+      }
+    }
+
+    .add-panel:not(form) {
+      padding-left: 2em;
+    }
+  }
+
+  .add-panel {
+    display: flex;
+    height: 3em;
+    align-items: center;
+
+    & > *:not(:last-child) {
+      margin-right: 0.8em;
+    }
+
+    & > .app-input {
+      width: 15em;
+    }
+  }
+}

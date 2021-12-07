@@ -1,0 +1,53 @@
+<div class="node-container" [class.root-container]="isRootNode">
+  <!-- title & node info -->
+  <div class="node-title" *ngIf="!isRootNode">
+    <div class="node-icon">
+      <img [src]="node?.type == 'folder' ? 'assets/svgs/folder-open-regular.svg' : 'assets/svgs/file-regular.svg'" />
+    </div>
+    <span>{{ node?.name }}</span>
+
+    <div class="btn-toolbar">
+      <button
+        type="submit"
+        class="btn-fill-black btn-icon-sm"
+        (click)="openAddPanelBlank()"
+        *ngIf="node?.type == 'folder'"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button type="reset" class="btn-fill-black btn-icon-sm" (click)="deleteNode(node?.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- node children -->
+  <ul class="node-content" *ngIf="node?.children?.length && node?.type == 'folder'">
+    <li *ngFor="let child of node?.children">
+      <app-node [node]="child"></app-node>
+    </li>
+  </ul>
+
+  <!-- add panel -->
+  <div class="add-panel" *ngIf="addPanelVisible$ | async as addInfo">
+    <div class="type-selector" *ngIf="!addInfo?.type">
+      <button type="button" class="btn-outline-black btn-sm" (click)="openAddPanel(true)">Folder</button>
+      <button type="button" class="btn-outline-black btn-sm" (click)="openAddPanel(false)">File</button>
+    </div>
+
+    <form *ngIf="addInfo?.type as type" [formGroup]="inputForm" (ngSubmit)="formSubmit(type)" class="add-panel">
+      <div class="node-icon">
+        <img [src]="type == 'folder' ? 'assets/svgs/folder-open-regular.svg' : 'assets/svgs/file-regular.svg'" />
+      </div>
+      <input class="app-input" type="text" formControlName="name" autofocus />
+      <div class="btn-toolbar">
+        <button type="submit" class="btn-fill-black btn-icon-sm" [disabled]="inputForm.invalid">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button type="reset" class="btn-fill-black btn-icon-sm" (click)="reset()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
